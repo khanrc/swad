@@ -119,7 +119,7 @@ def download_pacs(data_dir):
     full_path = stage_path(data_dir, "PACS")
 
     download_and_extract(
-        "https://drive.google.com/uc?id=0B6x7gtvErXgfbF9CSk53UkRxVzg",
+        "https://drive.google.com/uc?id=1JFr8f805nMUelQWWmfnJR3y4_SYoN5Pd",
         os.path.join(data_dir, "PACS.zip"),
     )
 
