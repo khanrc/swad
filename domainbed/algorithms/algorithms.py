@@ -115,7 +115,6 @@ class Mixstyle(Algorithm):
     def __init__(self, input_shape, num_classes, num_domains, hparams):
         assert input_shape[1:3] == (224, 224), "Mixstyle support R18 and R50 only"
         super().__init__(input_shape, num_classes, num_domains, hparams)
-        #  self.featurizer = networks.Featurizer(input_shape, self.hparams)
         if hparams["resnet18"]:
             network = resnet18_mixstyle_L234_p0d5_a0d1()
         else:
@@ -142,14 +141,11 @@ class Mixstyle(Algorithm):
 
 
 class Mixstyle2(Algorithm):
-    """MixStyle w/ domain label
-    NOTE that mixstyle2 use doubled batch size
-    """
+    """MixStyle w/ domain label"""
 
     def __init__(self, input_shape, num_classes, num_domains, hparams):
         assert input_shape[1:3] == (224, 224), "Mixstyle support R18 and R50 only"
         super().__init__(input_shape, num_classes, num_domains, hparams)
-        #  self.featurizer = networks.Featurizer(input_shape, self.hparams)
         if hparams["resnet18"]:
             network = resnet18_mixstyle2_L234_p0d5_a0d1()
         else:
@@ -159,7 +155,6 @@ class Mixstyle2(Algorithm):
         self.classifier = nn.Linear(self.featurizer.n_outputs, num_classes)
         self.network = nn.Sequential(self.featurizer, self.classifier)
         self.optimizer = self.new_optimizer(self.network.parameters())
-        #  print("!!! Mixstyle2")
 
     def pair_batches(self, xs, ys):
         xs = [x.chunk(2) for x in xs]
@@ -176,7 +171,6 @@ class Mixstyle2(Algorithm):
         return pairs
 
     def update(self, x, y, **kwargs):
-        #  minibatches = to_minibatch(x, y)
         pairs = self.pair_batches(x, y)
         loss = 0.0
 
