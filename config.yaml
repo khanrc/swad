@@ -1,6 +1,5 @@
 # Default update config
 # Config order: hparams_registry -> config.yaml -> CLI
-scheduler: const
 
 swad: LossValley
 swad_kwargs:
