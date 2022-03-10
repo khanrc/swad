@@ -17,7 +17,6 @@ def _hparams(algorithm, dataset, random_state):
     hparams["resnet18"] = (False, False)
     hparams["resnet_dropout"] = (0.0, random_state.choice([0.0, 0.1, 0.5]))
     hparams["class_balanced"] = (False, False)
-    hparams["scheduler"] = ("const", "const")
     hparams["optimizer"] = ("adam", "adam")
 
     hparams["freeze_bn"] = (True, True)

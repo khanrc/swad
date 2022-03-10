@@ -11,7 +11,6 @@ import torch.utils.data
 from domainbed.datasets import get_dataset, split_dataset
 from domainbed import algorithms
 from domainbed.evaluator import Evaluator
-from domainbed.lr_scheduler import get_scheduler
 from domainbed.lib import misc
 from domainbed.lib import swa_utils
 from domainbed.lib.query import Q
@@ -133,14 +132,6 @@ def train(test_envs, args, hparams, n_steps, checkpoint_freq, logger, writer, ta
     n_params = sum([p.numel() for p in algorithm.parameters()])
     logger.info("# of params = %d" % n_params)
 
-    # setup scheduler
-    scheduler = get_scheduler(
-        hparams["scheduler"],
-        algorithm.optimizer,
-        hparams["lr"],
-        n_steps,
-    )
-
     train_minibatches_iterator = zip(*train_loaders)
     checkpoint_vals = collections.defaultdict(lambda: [])
 
@@ -187,8 +178,6 @@ def train(test_envs, args, hparams, n_steps, checkpoint_freq, logger, writer, ta
         if swad:
             # swad_algorithm is segment_swa for swad
             swad_algorithm.update_parameters(algorithm, step=step)
-
-        scheduler.step()
 
         if step % checkpoint_freq == 0:
             results = {
@@ -269,7 +258,6 @@ def train(test_envs, args, hparams, n_steps, checkpoint_freq, logger, writer, ta
 
         if step % args.tb_freq == 0:
             # add step values only for tb log
-            step_vals["lr"] = scheduler.get_last_lr()[0]
             writer.add_scalars_with_prefix(step_vals, step, f"{testenv_name}/summary/")
 
     # find best
