@@ -84,7 +84,7 @@ class LossValley(SWADBase):
         if self.dead_valley:
             return
 
-        frozen = copy.deepcopy(segment_swa)
+        frozen = copy.deepcopy(segment_swa.cpu())
         frozen.end_loss = val_loss
         self.converge_Q.append(frozen)
         self.smooth_Q.append(frozen)
@@ -148,7 +148,7 @@ class LossValley(SWADBase):
             self.evaluator.logger.error(
                 "Requested final model, but model is not yet converged; return last model instead"
             )
-            return self.converge_Q[-1]
+            return self.converge_Q[-1].cuda()
 
         if not self.dead_valley:
             self.smooth_Q.popleft()
@@ -159,4 +159,4 @@ class LossValley(SWADBase):
                 segment_swa = self.smooth_Q.popleft()
                 self.final_model.update_parameters(segment_swa, step=segment_swa.end_step)
 
-        return self.final_model
+        return self.final_model.cuda()
