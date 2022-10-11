@@ -134,7 +134,7 @@ def download_office_home(data_dir):
     full_path = stage_path(data_dir, "office_home")
 
     download_and_extract(
-        "https://drive.google.com/uc?id=0B81rNlvomiwed0V1YUxQdC1uOTg",
+        "https://drive.google.com/uc?id=1uY0pj7oFsjMxRwaD3Sxy0jgel0fsYXLC",
         os.path.join(data_dir, "office_home.zip"),
     )
 
